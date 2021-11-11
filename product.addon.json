@@ -228,28 +228,6 @@
         "b8"
       ],
       "settings": {
-        "subtitle": "{{ product.metafields.my_fields.product_subtitle.value }}",
-        "click_to_enlarge": false,
-        "image_options": "static",
-        "thumbnail_position": "bottom",
-        "thumbs_to_show": 0,
-        "slide_controls": "dots",
-        "enable_video_looping": false,
-        "product_image_border": "#ffffff",
-        "product_form_bg": "#eff3f5",
-        "product_form_border": "#eff3f5",
-        "description_position": "hide",
-        "show_product_size_chart": false,
-        "show_product_model": false,
-        "enable_product_reviews": false,
-        "reviews_heading": "Customer Reviews",
-        "enable_social": false,
-        "enable_price": false,
-        "pre_btn_text": "<p>Starting at $95, including prescription lenses <strong>or 4 payments of $24 with Affirm.<\/strong><\/p>",
-        "main_btn": "Select lenses and purchase",
-        "enable_location": true,
-        "map_address": "660 Baker Street, Building B102, Costa Mesa CA, 92626",
-        "map_btn": "Try Glasses In-store"
       }
     },
     "recommendations": {
