@@ -1,0 +1,16 @@
+{% assign current = rg-addon-option.selected_or_first_available_variant %}
+<div class="option-wrapper">
+  <div class="flexx align-center justify-between">
+    <a class="{% if current.available %}upsell-buttons{% else %}soldOut-tings{% endif %} add-on-bttnnn"
+       {% if current.available %}
+       data-id="{{ current.id }}"
+       data-pricce="{{ current.price }}"
+       data-currency="{{ cart.currency.symbol }}"
+       data-pop="customhandle-b{{- link | escape -}}"
+       data-code="{{ code | escape }}_{{ title | escape }}"
+       {% endif %}
+       >{{ title | escape }}</a>
+    {% render 'rg-product-price', variant: current, product: rg-addon-option, dont_show_price: show_price %}
+  </div>
+  {{ desc }}
+</div>
