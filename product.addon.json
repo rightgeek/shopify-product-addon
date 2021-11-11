@@ -3,28 +3,6 @@
     "main": {
       "type": "product-template",
       "blocks": {
-        "b1": {
-          "type": "description",
-          "disabled": true,
-          "settings": {
-          }
-        },
-        "b2": {
-          "type": "text",
-          "disabled": true,
-          "settings": {
-            "tab_heading": "FedEx 2-Day",
-            "tab_content": "<p>Purchase online and get a FedEx 2-Day insured label via email to ship us your glasses, we'll ship them back FedEx 2-Day as well for the fastest online experience.<\/p>"
-          }
-        },
-        "b3": {
-          "type": "text",
-          "disabled": true,
-          "settings": {
-            "tab_heading": "Prescription",
-            "tab_content": "<p>Our pricing is not dependent on your prescription, we will request a copy via email or text after your purchase.<\/p>"
-          }
-        },
         "b5": {
           "type": "addons",
           "settings": {
@@ -241,9 +219,6 @@
         }
       },
       "block_order": [
-        "b1",
-        "b2",
-        "b3",
         "b5",
         "b6",
         "b7",
