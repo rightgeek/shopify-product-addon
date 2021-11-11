@@ -1,0 +1,163 @@
+{% assign index = b.index | default: num %}
+<div class="variant_modal {% if summary %}summary-block{% elsif file %}file-block{% else %}addons-blocks{% endif %} block_type--{%- unless summary -%}{{ b.block_type }}{%- else -%}main{% endunless %} block--b{{- index | escape -}}"
+     data-popup="customhandle-b{{- index | escape -}}"
+     >
+  <div class="variant_modal_wrapper">
+    <span class="desktop-hide noMargin flexx flex-center text-center variant_modal-header">
+      <b>{{ product.title }}&ensp;</b>
+      {% if section.settings.subtitle != blank %}
+      <small><i>{{ section.settings.subtitle | escape }}</i></small>
+      {% endif %}
+    </span>
+    <div class="row desktop--noMargin mobile--noMargin desktop--flexx">
+      <div class="desktop-8 contained tablet-full mobile-full flexx flex-center">
+        <div class="imageWrapper seventy addon-modal-image-wrapper">
+          {% if b.image %}
+          {% render 'basic-responsive-image', type: b.image, addon: true %}
+          <noscript>
+            <img src="{{ b.image | img_url: '800x' }}" alt="{{ b.image.alt }}">
+          </noscript>
+          {% else %}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+        <div class="flexx align-end tablet-hide mobile-hide" style="width: 90%;margin: 30px 0 0;">
+          <h2 class="noMargin">{{ product.title }}&ensp;</h2>
+          {% if section.settings.subtitle != blank %}
+          <i>{{ section.settings.subtitle | escape }}</i>
+          {% endif %}
+        </div>
+      </div>
+      <div class="desktop-4 contained tablet-full mobile-full addon-modal-content-wrapper">
+        <span class="progress-bar tablet-hide mobile-hide"></span>
+        <span data-pop="back" data-id="" class="backButton tablet-hide noMargin mobile-hide">{% render 'svg-definitions' with 'back' %}</span>
+        <div class="addon-content-body">
+          <div class="addon-content-body--inner">
+            {% if b.block_title != blank %}<h2 class="text-center">{{ b.block_title }}</h2>{% endif %}
+            {% if b.block_subtitle != blank %}<div class="text-center" style="font-size: 0.9em;">{{ b.block_subtitle }}</div>{% endif %}
+            {% if b.option1_product != blank %}
+            {% render 'rg-addon-option' with all_products[b.option1_product],
+                link: b.option1_link,
+            title: b.option1_title,
+            desc: b.option1_desc,
+            show_price: b.price1,
+            code: b.code
+            %}
+            {% endif %}
+            {% if b.option2_product != blank %}
+            {% render 'rg-addon-option' with all_products[b.option2_product],
+                link: b.option2_link,
+            title: b.option2_title,
+            desc: b.option2_desc,
+            show_price: b.price2,
+            code: b.code
+            %}
+            {% endif %}
+            {% if b.option3_product != blank %}
+            {% render 'rg-addon-option' with all_products[b.option3_product],
+                link: b.option3_link,
+            title: b.option3_title,
+            desc: b.option3_desc,
+            show_price: b.price3,
+            code: b.code
+            %}
+            {% endif %}
+            {% if b.option4_product != blank %}
+            {% render 'rg-addon-option' with all_products[b.option4_product],
+                link: b.option4_link,
+            title: b.option4_title,
+            desc: b.option4_desc,
+            show_price: b.price4,
+            code: b.code
+            %}
+            {% endif %}
+            {% if b.option5_product != blank %}
+            {% render 'rg-addon-option' with all_products[b.option5_product],
+                link: b.option5_link,
+            title: b.option5_title,
+            desc: b.option5_desc,
+            show_price: b.price5,
+            code: b.code
+            %}
+            {% endif %}
+            {% if b.option6_product != blank %}
+            {% render 'rg-addon-option' with all_products[b.option6_product],
+                link: b.option6_link,
+            title: b.option6_title,
+            desc: b.option6_desc,
+            show_price: b.price6,
+            code: b.code
+            %}
+            {% endif %}
+            {% if b.option7_product != blank %}
+            {% render 'rg-addon-option' with all_products[b.option7_product],
+                link: b.option7_link,
+            title: b.option7_title,
+            desc: b.option7_desc,
+            show_price: b.price7,
+            code: b.code
+            %}
+            {% endif %}
+            {% if file %}
+            <br>
+            <div class="product-file--form-wrapper">
+              <form class="dummyform noMargin noPadding">
+                <div class="uploadkit"></div>
+                {% comment %}
+                <input  type="hidden" id="{{ variant.id }}" name="id" data-sku="{{ variant.sku }}" value="{{ variant.id }}" />
+                {% endcomment %}
+                <button class="button secondary-button rg-btnn"
+                        type="submit"
+                        data-pop="customhandle-b{{- b.link_to | escape -}}"
+                        >{{ 'Continue' }}</button>
+              </form>
+            </div>
+            {% endif %}
+            {% if summary %}
+            <div id="sumary--list"></div>
+            <div class="sumary-content-footer flexx align-center">
+              <div class="flexx align-center justify-between">
+                <b>Subtotal</b>
+                <b class="upsell--money">{{ product.selected_or_first_available_variant.price | money }}</b>
+              </div>
+            </div>            
+            {% endif %}
+          </div>
+        </div>
+        {% if b.summary %}
+        <div class="addon-content-footer flexx align-center">
+          <div class="flexx align-center justify-between">
+            <b>Subtotal</b>
+            <b class="upsell--money">{{ product.selected_or_first_available_variant.price | money }}</b>
+          </div>
+        </div>
+        {% endif %}
+        {% if summary %}
+        <div class="addon-content-footer product-upsell--form-wrapper flexx align-center">
+          {% form "product", product, id: "AddToCartForm", class: "dummyform product_form noMargin noPadding", data-product-form:product_form_config, data-product-id: product.id %}
+            <button class="button rg-btnn"
+                    type="submit"
+                    >{{ 'products.product.add_to_cart' | t }}: <span class="upsell--money">{{ product.selected_or_first_available_variant.price | money }}</span></button>
+          {% endform %}
+          {% comment %}
+          <form class="dummyform noMargin noPadding">
+            <button class="button rg-btnn"
+                    type="submit"
+                    >{{ 'products.product.add_to_cart' | t }}: <span class="upsell--money">{{ product.selected_or_first_available_variant.price | money }}</span></button>
+          </form>
+          {% endcomment %}
+          <a onclick="resetDatabase()"
+             data-pop="customhandle-b1"
+             class="button-as-link rg-btnn"
+             >
+            <span>{{ 'Edit selections' }}</span>
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <span data-pop="back" data-id="" class="backButton noMargin desktop-hide">{% render 'svg-definitions' with 'back' %}</span>
+    <span data-pop="" class="close" onclick="resetDatabase()">{% render 'svg-definitions' with 'close' %}</span>
+    <span class="progress-bar desktop-hide"></span>
+  </div>
+</div>
