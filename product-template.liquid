@@ -1,0 +1,389 @@
+{{ 'plus-css.css' | asset_url | stylesheet_tag }}
+<button class="button rg-btnn"
+            type="submit"
+            data-pop="customhandle-b1"
+            >{% if main_btn != blank %}{{ main_btn | escape }}{% else %}{{ call_to_action }}{% endif %}</button>
+
+
+
+{% assign num = 0 %}
+{% for block in section.blocks %}
+{% case block.type %}
+{% when 'addons' %}
+{% assign num = num | plus: 1 %}
+{% render 'addon-block',
+	b: block.settings,
+	num: num
+%}
+{% when 'file' %}
+{% assign num = num | plus: 1 %}
+{% render 'addon-block',
+	b: block.settings,
+	num: num,
+	variant: current_variant,
+	file: true
+%}
+{% when 'summary' %}
+{% render 'addon-block',
+	b: block.settings,
+	num: 0,
+	summary: true
+%}
+{% endcase %}
+{% endfor %}
+{% render 'plus-scripts' %}
+{% schema %}
+{
+  "name": "Product page",
+  "class": "rg-product-template-class",
+  "blocks":[
+    {
+      "type": "addons",
+      "name": "Add-ons block",
+      "settings": [
+        {
+          "type": "select",
+          "id": "block_type",
+          "label": "Block type",
+          "options": [{"value": "main","label": "Main"},{"value": "aux","label": "Auxiliary"}],
+          "default": "main",
+		  "info": "A \"Main\" block is one that exists in every sequence, e.g. Lens type, Lens material.. the \"Auxiliary\" block is one that exists only in certain instances\/sequence, e.g. Lens color"
+        },
+        {
+          "type": "range",
+          "id": "index",
+          "label": "Block number",
+          "min": 1,
+          "max": 15,
+          "step": 1,
+		  "default": 15,
+          "info": "Set the Block number starting from \"1\". **ALL BLOCKS MUST BE IN SEQUENCE** Main button directs to 1, the first block in the sequence"
+        },
+        {
+          "type": "text",
+          "id": "block_title",
+          "label": "Block title",
+          "default": "Pick an option"
+        },
+        {
+          "type": "text",
+          "id": "code",
+          "label": "Block codename",
+          "info": "Block code is the short title that will be shown at the Summary block as the heading of whatever option is picked here. **DO NOT LEAVE EMPTY**",
+		  "default": "Lorem ipsum"
+        },
+        {
+          "type": "header",
+          "content": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Block image"
+        },
+            {
+              "type": "header",
+              "content": "Option 1"
+            },
+            {
+              "type": "product",
+              "id": "option1_product",
+              "label": "Options add-on"
+            },
+            {
+              "type": "checkbox",
+              "id": "price1",
+              "label": "Show price"
+            },
+            {
+              "type": "text",
+              "id": "option1_title",
+              "label": "Title",
+              "default": "Option 1"
+            },
+            {
+              "type": "richtext",
+              "id": "option1_desc",
+              "label": "Description",
+              "default": "<p>Lorem ipsum dolor sit amet.</p>"
+            },
+            {
+              "type": "text",
+              "id": "option1_link",
+              "label": "Link to",
+              "info": "Enter the \"Block number\" of the next block in the sequence to link to when this option is clicked. Enter \"0\" if it should link to the Summary block."
+            },
+            {
+              "type": "header",
+              "content": "Option 2"
+            },
+            {
+              "type": "product",
+              "id": "option2_product",
+              "label": "Options add-on"
+            },
+            {
+              "type": "checkbox",
+              "id": "price2",
+              "label": "Show price"
+            },
+            {
+              "type": "text",
+              "id": "option2_title",
+              "label": "Title",
+              "default": "Option 2"
+            },
+            {
+              "type": "richtext",
+              "id": "option2_desc",
+              "label": "Description",
+              "default": "<p>Lorem ipsum dolor sit amet.</p>"
+            },
+            {
+              "type": "text",
+              "id": "option2_link",
+              "label": "Link to",
+              "info": "Enter the \"Block number\" of the next block in the sequence to link to when this option is clicked. Enter \"0\" if it should link to the Summary block."
+            },
+            {
+              "type": "header",
+              "content": "Option 3"
+            },
+            {
+              "type": "product",
+              "id": "option3_product",
+              "label": "Options add-on"
+            },
+            {
+              "type": "checkbox",
+              "id": "price3",
+              "label": "Show price"
+            },
+            {
+              "type": "text",
+              "id": "option3_title",
+              "label": "Title",
+              "default": "Option 3"
+            },
+            {
+              "type": "richtext",
+              "id": "option3_desc",
+              "label": "Description",
+              "default": "<p>Lorem ipsum dolor sit amet.</p>"
+            },
+            {
+              "type": "text",
+              "id": "option3_link",
+              "label": "Link to",
+              "info": "Enter the \"Block number\" of the next block in the sequence to link to when this option is clicked. Enter \"0\" if it should link to the Summary block."
+            },
+            {
+              "type": "header",
+              "content": "Option 4"
+            },
+            {
+              "type": "product",
+              "id": "option4_product",
+              "label": "Options add-on"
+            },
+            {
+              "type": "checkbox",
+              "id": "price4",
+              "label": "Show price"
+            },
+            {
+              "type": "checkbox",
+              "id": "summary",
+              "label": "Show price summary"
+            },
+            {
+              "type": "text",
+              "id": "option4_title",
+              "label": "Title",
+              "default": "Option 4"
+            },
+            {
+              "type": "richtext",
+              "id": "option4_desc",
+              "label": "Description",
+              "default": "<p>Lorem ipsum dolor sit amet.</p>"
+            },
+            {
+              "type": "text",
+              "id": "option4_link",
+              "label": "Link to",
+              "info": "Enter the \"Block number\" of the next block in the sequence to link to when this option is clicked. Enter \"0\" if it should link to the Summary block."
+            },
+            {
+              "type": "header",
+              "content": "Option 5"
+            },
+            {
+              "type": "product",
+              "id": "option5_product",
+              "label": "Options add-on"
+            },
+            {
+              "type": "checkbox",
+              "id": "price5",
+              "label": "Show price"
+            },
+            {
+              "type": "text",
+              "id": "option5_title",
+              "label": "Title",
+              "default": "Option 5"
+            },
+            {
+              "type": "richtext",
+              "id": "option5_desc",
+              "label": "Description",
+              "default": "<p>Lorem ipsum dolor sit amet.</p>"
+            },
+            {
+              "type": "text",
+              "id": "option5_link",
+              "label": "Link to",
+              "info": "Enter the \"Block number\" of the next block in the sequence to link to when this option is clicked. Enter \"0\" if it should link to the Summary block."
+            },
+            {
+              "type": "header",
+              "content": "Option 6"
+            },
+            {
+              "type": "product",
+              "id": "option6_product",
+              "label": "Options add-on"
+            },
+            {
+              "type": "checkbox",
+              "id": "price6",
+              "label": "Show price"
+            },
+            {
+              "type": "text",
+              "id": "option6_title",
+              "label": "Title",
+              "default": "Option 6"
+            },
+            {
+              "type": "richtext",
+              "id": "option6_desc",
+              "label": "Description",
+              "default": "<p>Lorem ipsum dolor sit amet.</p>"
+            },
+            {
+              "type": "text",
+              "id": "option6_link",
+              "label": "Link to",
+              "info": "Enter the \"Block number\" of the next block in the sequence to link to when this option is clicked. Enter \"0\" if it should link to the Summary block."
+            },
+            {
+              "type": "header",
+              "content": "Option 7"
+            },
+            {
+              "type": "product",
+              "id": "option7_product",
+              "label": "Options add-on"
+            },
+            {
+              "type": "checkbox",
+              "id": "price7",
+              "label": "Show price"
+            },
+            {
+              "type": "text",
+              "id": "option7_title",
+              "label": "Title",
+              "default": "Option 7"
+            },
+            {
+              "type": "richtext",
+              "id": "option7_desc",
+              "label": "Description",
+              "default": "<p>Lorem ipsum dolor sit amet.</p>"
+            },
+            {
+              "type": "text",
+              "id": "option7_link",
+              "label": "Link to",
+              "info": "Enter the \"Block number\" of the next block in the sequence to link to when this option is clicked. Enter \"0\" if it should link to the Summary block."
+            }
+      ]
+    },
+    {
+      "type": "file",
+      "name": "File block",
+	  "limit": 2,
+      "settings": [
+        {
+          "type": "select",
+          "id": "block_type",
+          "label": "Block type",
+          "options": [{"value": "main","label": "Main"},{"value": "aux","label": "Auxiliary"}],
+          "default": "main",
+		  "info": "A \"Main\" block is one that exists in every sequence, e.g. Lens type, Lens material.. the \"Auxiliary\" block is one that exists only in certain instances\/sequence, e.g. Lens color"
+        },
+        {
+          "type": "range",
+          "id": "index",
+          "label": "Block number",
+          "min": 1,
+          "max": 15,
+          "step": 1,
+		  "default": 15,
+          "info": "Set the Block number starting from \"1\". **ALL BLOCKS MUST BE IN SEQUENCE** Main button directs to 1, the first block in the sequence"
+        },
+        {
+          "type": "text",
+          "id": "link_to",
+          "label": "Link to",
+          "info": "Enter the \"Block number\" of the next block in the sequence to link to when this option is clicked. Enter \"0\" if it should link to the Summary block."
+        },
+        {
+          "type": "text",
+          "id": "block_title",
+          "label": "Block title",
+          "default": "File uploads"
+        },
+        {
+          "type": "richtext",
+          "id": "block_subtitle",
+          "label": "Block subtitle",
+          "default": "<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Block image"
+        }
+	  ]
+    },
+    {
+      "type": "summary",
+      "name": "Summary block",
+	  "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "block_title",
+          "label": "Block title",
+          "default": "Review your selections"
+        },
+        {
+          "type": "richtext",
+          "id": "block_subtitle",
+          "label": "Block subtitle",
+          "default": "<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Block image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
