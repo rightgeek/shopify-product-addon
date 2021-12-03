@@ -33,104 +33,157 @@
         <span data-pop="back" data-id="" class="backButton tablet-hide noMargin mobile-hide">{% render 'svg-definitions' with 'back' %}</span>
         <div class="addon-content-body">
           <div class="addon-content-body--inner">
+            {% if b.title != blank %}<h2 class="text-center">{{ b.title }}</h2>{% endif %}
             {% if b.block_title != blank %}<h2 class="text-center">{{ b.block_title }}</h2>{% endif %}
             {% if b.block_subtitle != blank %}<div class="text-center" style="font-size: 0.9em;">{{ b.block_subtitle }}</div>{% endif %}
-            {% if b.option1_product != blank or b.base1 == 'link' %}
+            {% if b.option1_product != blank or b.base1 == 'link' or b.base1 == 'property' %}
             {% assign base1 = false %}
             {% if b.base1 == 'link' %}
             {% assign base1 = true %}
             {% endif %}
-            {% render 'rg-addon-option' with all_products[b.option1_product],
+            {% render 'rg-addon-option' with b.option1_product,
                 link: b.option1_link,
                 title: b.option1_title,
                 desc: b.option1_desc,
                 show_price: b.price1,
                 code: b.code,
-            	anchor: base1
+            	anchor: base1,
+            	base: b.base1
             %}
             {% endif %}
-            {% if b.option2_product != blank or b.base2 == 'link' %}
+            {% if b.option2_product != blank or b.base2 == 'link' or b.base2 == 'property' %}
             {% assign base2 = false %}
             {% if b.base2 == 'link' %}
             {% assign base2 = true %}
             {% endif %}
-            {% render 'rg-addon-option' with all_products[b.option2_product],
+            {% render 'rg-addon-option' with b.option2_product,
                 link: b.option2_link,
                 title: b.option2_title,
                 desc: b.option2_desc,
                 show_price: b.price2,
                 code: b.code,
-            	anchor: base2
+            	anchor: base2,
+            	base: b.base2
             %}
             {% endif %}
-            {% if b.option3_product != blank or b.base3 == 'link' %}
+            {% if b.option3_product != blank or b.base3 == 'link' or b.base3 == 'property' %}
             {% assign base3 = false %}
             {% if b.base3 == 'link' %}
             {% assign base3 = true %}
             {% endif %}
-            {% render 'rg-addon-option' with all_products[b.option3_product],
+            {% render 'rg-addon-option' with b.option3_product,
                 link: b.option3_link,
                 title: b.option3_title,
                 desc: b.option3_desc,
                 show_price: b.price3,
                 code: b.code,
-            	anchor: base3
+            	anchor: base3,
+            	base: b.base3
             %}
             {% endif %}
-            {% if b.option4_product != blank or b.base4 == 'link' %}
+            {% if b.option4_product != blank or b.base4 == 'link' or b.base4 == 'property' %}
             {% assign base4 = false %}
             {% if b.base4 == 'link' %}
             {% assign base4 = true %}
             {% endif %}
-            {% render 'rg-addon-option' with all_products[b.option4_product],
+            {% render 'rg-addon-option' with b.option4_product,
                 link: b.option4_link,
                 title: b.option4_title,
                 desc: b.option4_desc,
                 show_price: b.price4,
                 code: b.code,
-            	anchor: base4
+            	anchor: base4,
+            	base: b.base4
             %}
             {% endif %}
-            {% if b.option5_product != blank or b.base5 == 'link' %}
+            {% if b.option5_product != blank or b.base5 == 'link' or b.base5 == 'property' %}
             {% assign base5 = false %}
             {% if b.base5 == 'link' %}
             {% assign base5 = true %}
             {% endif %}
-            {% render 'rg-addon-option' with all_products[b.option5_product],
+            {% render 'rg-addon-option' with b.option5_product,
                 link: b.option5_link,
                 title: b.option5_title,
                 desc: b.option5_desc,
                 show_price: b.price5,
                 code: b.code,
-            	anchor: base5
+            	anchor: base5,
+            	base: b.base5
             %}
             {% endif %}
-            {% if b.option6_product != blank or b.base6 == 'link' %}
+            {% if b.option6_product != blank or b.base6 == 'link' or b.base6 == 'property' %}
             {% assign base6 = false %}
             {% if b.base6 == 'link' %}
             {% assign base6 = true %}
             {% endif %}
-            {% render 'rg-addon-option' with all_products[b.option6_product],
+            {% render 'rg-addon-option' with b.option6_product,
                 link: b.option6_link,
                 title: b.option6_title,
                 desc: b.option6_desc,
                 show_price: b.price6,
                 code: b.code,
-            	anchor: base6
+            	anchor: base6,
+            	base: b.base6
             %}
             {% endif %}
-            {% if b.option7_product != blank or b.base7 == 'link' %}
+            {% if b.option7_product != blank or b.base7 == 'link' or b.base7 == 'property' %}
             {% assign base7 = false %}
             {% if b.base7 == 'link' %}
             {% assign base7 = true %}
             {% endif %}
-            {% render 'rg-addon-option' with all_products[b.option7_product],
+            {% render 'rg-addon-option' with b.option7_product,
                 link: b.option7_link,
                 title: b.option7_title,
                 desc: b.option7_desc,
                 show_price: b.price7,
                 code: b.code,
-            	anchor: base7
+            	anchor: base7,
+            	base: b.base7
+            %}
+            {% endif %}
+            {% if b.option8_product != blank or b.base8 == 'link' or b.base8 == 'property' %}
+            {% assign base8 = false %}
+            {% if b.base8 == 'link' %}
+            {% assign base8 = true %}
+            {% endif %}
+            {% render 'rg-addon-option' with b.option8_product,
+                link: b.option8_link,
+                title: b.option8_title,
+                desc: b.option8_desc,
+                show_price: b.price8,
+                code: b.code,
+            	anchor: base8,
+            	base: b.base8
+            %}
+            {% endif %}
+            {% if b.option9_product != blank or b.base9 == 'link' or b.base9 == 'property' %}
+            {% assign base9 = false %}
+            {% if b.base9 == 'link' %}
+            {% assign base9 = true %}
+            {% endif %}
+            {% render 'rg-addon-option' with b.option9_product,
+                link: b.option9_link,
+                title: b.option9_title,
+                desc: b.option9_desc,
+                show_price: b.price9,
+                code: b.code,
+            	anchor: base9,
+            	base: b.base9
+            %}
+            {% endif %}
+            {% if b.option10_product != blank or b.base10 == 'link' or b.base10 == 'property' %}
+            {% assign base10 = false %}
+            {% if b.base10 == 'link' %}
+            {% assign base10 = true %}
+            {% endif %}
+            {% render 'rg-addon-option' with b.option10_product,
+                link: b.option10_link,
+                title: b.option10_title,
+                desc: b.option10_desc,
+                show_price: b.price10,
+                code: b.code,
+            	anchor: base10,
+            	base: b.base10
             %}
             {% endif %}
             {% if file %}
