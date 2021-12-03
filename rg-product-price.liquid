@@ -1,0 +1,47 @@
+{% unless dont_show_price == false %}
+{% comment %}
+    Renders a list of product's price (regular, sale, unit)
+    Accompanies product forms and meant to be updated dynamically
+    Accepts:
+    - variant: {Object} Variant Liquid object (optional)
+    - product: {Object} Product Liquid object (optional)
+
+    Usage:
+    {% include 'product-price', variant: current_variant, product: product %}
+{% endcomment %}
+{%- liquid
+  if variant.title
+    assign compare_at_price = variant.compare_at_price
+    assign price = variant.price
+    assign available = variant.available
+  else
+    assign compare_at_price = 1999
+    assign price = 1999
+    assign available = true
+  endif
+  
+  assign free = false
+  
+  unless price == 0
+    assign money_price = price | money
+  else 
+    assign free = true
+    assign money_price = 'Free'
+  endunless
+-%}
+
+<dl id="product-price"
+    class="price free--{{free}} noMargin noPadding{% if show_price == false %} hide{% endif %}"
+    data-price
+    >
+  <div class="price__pricing-group">
+    <div class="price__regular">
+      <dd>
+        <span class="price-item price-item--regular" data-regular-price>
+          {{- money_price -}}
+        </span>
+      </dd>
+    </div>
+  </div>
+</dl>
+{% endunless %}
