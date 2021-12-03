@@ -29,9 +29,57 @@
   (function(){
     function innit () {
       addUpsellItem();
+      renderAddonOption();
       submitUpsellForm();
     };
     
+        
+    function renderAddonOption () {
+      var addonWrapper = document.querySelectorAll('.product-addon-wrapper'),
+          counter = 0;
+      
+      for (var i = 0;i<addonWrapper.length;i++) {
+        let $this = addonWrapper[i],
+            handle = $this.getAttribute('data-handle'),
+            title = $this.getAttribute('data-title'),
+            desc = $this.getAttribute('data-desc'),
+            code = $this.getAttribute('data-cude'),
+            pop = $this.getAttribute('data-poop'),
+            content = '',
+            linkClass,current,free;
+        
+        let products = fetch('/products/'+handle+'.js').then(response => response.json());
+        
+        products.then(function(product) {
+
+          linkClass = product.available ? 'upsell-buttons' : 'soldOut-tings';
+          current = activeVariant(product.variants);
+          free = (current.price == 0) ? true : false;
+
+          content += '<div class="flexx align-center justify-between"><a class="'+linkClass+' add-on-bttnnn" ';
+          content += product.available ? 'data-id="'+current.id+'" data-pricce="'+current.price+'" data-currency="'+dataCurrency+'" ' : '';
+          content += 'data-code="'+code+'"data-pop="'+pop+'">'+title+'</a>';
+          content += '<dl id="product-price" class="price free--'+free+' noMargin noPadding" data-price><div class="price__pricing-group"><div class="price__regular"><dd><span class="price-item price-item--regular" data-regular-price>'+numToPrice(current.price)+'</span></dd></div></div></dl></div>'+desc+'</div>';
+
+          $this.innerHTML = content;
+          counter += 1;
+          content = '';
+          
+          if (addonWrapper.length == counter) {
+            addUpsellItem();
+          }
+        })
+      }
+    }
+
+    function activeVariant (v) {
+      for (var i = 0;i<v.length;i++) {
+        if (v[i].available) {
+          return v[i];
+        }
+      }
+    }
+
     function addUpsellItem () {
       var upsellButtons = document.querySelectorAll('.upsell-buttons'),
           upsellMoneySpan = document.querySelectorAll('.upsell--money'),
@@ -39,28 +87,33 @@
           i,a;
       
       for (i = 0;i < upsellButtons.length;i++) {
-        upsellButtons[i].addEventListener("click", function() {
+        
+        upsellButtons[i].addEventListener('click', function() {
           
-          var id = this.getAttribute('data-id'),
+          let id = this.getAttribute('data-id'),
               price = this.getAttribute('data-pricce'),
               codeName = this.getAttribute('data-code');
-          
-          var newItem = {
-            'id': id,
-            'quantity': 1,
-            '__pricce': price,
-            '__codeName': codeName
-          };
 
-          upsellDatabase.items.push(newItem);
-          updateSubtotal(upsellMoneySpan);
-          renderSummary(upsellDatabase.items);
+          if (id) {
+            let newItem = {
+              'id': id,
+              'quantity': 1,
+              '__pricce': price,
+              '__codeName': codeName
+            };
+
+            upsellDatabase.items.push(newItem);
+            updateSubtotal(upsellMoneySpan);
+          } else if (codeName) {
+            updateProperty(codeName);
+          }
+          renderSummary(upsellDatabase.items);          
         });
       }
       
       for (i = 0;i < backButton.length;i++) {
         backButton[i].addEventListener("click", function() {
-          var id = this.getAttribute('data-id');
+          let id = this.getAttribute('data-id');
           
           removeItem(upsellDatabase.items, id);
           updateSubtotal(upsellMoneySpan);
@@ -108,16 +161,27 @@
     
     function renderSummary(array) {
       var summaryWrapper = document.querySelector('#sumary--list'),
-          list = '';
+          list = '',subList = '',arry = array[0].properties;
       
       setTimeout(function(){
         
+        for (var key in arry) {
+          if (!key.includes('_')) {
+            subList += '<div class="list--item-container flexx justify-between align-end"><div class="list--item-title"><b>'+key+'</b><br><small>'+arry[key]+'</small></div></div>';
+          }
+        }
+        
         for (var b = 0; b < array.length; b++) {
-          list += '<div class="list--item-container flexx justify-between align-end"><div class="list--item-title">'+nameSplit(array[b].__codeName)+'</div><div class="list--item-price"><small>'+numToPrice(array[b].__pricce)+'</small></div></div>';
+          if (b == 0) {
+            var propss = subList;
+          } else {
+            var propss = '';
+          }
+          
+          list += '<div class="list--item-container flexx justify-between align-end"><div class="list--item-title">'+nameSplit(array[b].__codeName)+'</div><div class="list--item-price"><small>'+numToPrice(array[b].__pricce)+'</small></div></div>'+propss;
         }
         
         summaryWrapper.innerHTML = list;
-        
       },200);
     }
     
@@ -163,10 +227,15 @@
       }
     }
     
+    function updateProperty (xx) {
+      upsellDatabase.items[0].properties[xx.split("_")[0]] = xx.split("_")[1];
+      //console.log(upsellDatabase);
+    }
+    
     innit();
   })();
 </script>
-<script src="{{ 'jquery-3.5.1.min.js' | asset_url }}"></script>
+<script src="{{ 'jquery-2.1.0.min.js' | asset_url }}"></script>
 <script>
   (function(){
     var mainCount,mainToMain,mainToAux,auxToAux,forward,backward,reset,final,
@@ -193,12 +262,11 @@
         upsellDatabase.items[0].id = indexed_array.id;
         //console.log(indexed_array);
       } else {
-        console.log(indexed_array);
+//         console.log(indexed_array);
         $.each(indexed_array, function(k,v) {
           upsellDatabase.items[0].properties[k.split("[")[1].split("]")[0]] = indexed_array[k]
         });
         //upsellDatabase.items[0].properties['_Glasses prescription'] = indexed_array['properties[_Glasses prescription]'];
-        console.log(upsellDatabase);
       }
     };
 
@@ -226,8 +294,9 @@
       $popup.fadeToggle(200);
       
       setTimeout(function(){
-
+        
         $popup.siblings('[data-popup]').hide();
+        origin.hide()
 
         if ($('.variant_modal:visible').length) {
           $('body').addClass('popup-up');
@@ -276,57 +345,62 @@
     });
     
     function direction(o,d) {
-      if (o.hasClass('block_type--main')) {
-        OM = true;
-        OA = false;
-      } else if (o.hasClass('block_type--aux')) {
-        OA = true;
-        OM = false;
-      }
-      if (d.hasClass('block_type--main')) {
-        DM = true;
-        DA = false;
-      } else if (d.hasClass('block_type--aux')) {
-        DA = true;
-        DM = false;
-      }        
+      if (d.is(':visible')) {
+        if (o.hasClass('block_type--main')) {
+          OM = true;
+          OA = false;
+        } else if (o.hasClass('block_type--aux')) {
+          OA = true;
+          OM = false;
+        }
+        if (d.hasClass('block_type--main')) {
+          DM = true;
+          DA = false;
+        } else if (d.hasClass('block_type--aux')) {
+          DA = true;
+          DM = false;
+        }        
 
-      if (reset) {
-        progress = 0;
-      } else if (final) {
-        progress = 100;
-      } else if (backward) {
+        if (reset) {
+          progress = 0;
+        } else if (final) {
+          progress = 100;
+        } else if (backward) {
 
-        if (OM && DM) {
-          progress -= mainToMain;
-        } else if (OM && DA) {
-          initialProgress = progress;
-          progress -= mainToAux;
-        } else if (OA && DA) {
-          progress -= auxToAux;
-        } else if (OA && DM) {
-          progress = initialProgress - mainToMain;
+          if (OM && DM) {
+            progress -= mainToMain;
+          } else if (OM && DA) {
+            initialProgress = progress;
+            progress -= mainToAux;
+          } else if (OA && DA) {
+            progress -= auxToAux;
+          } else if (OA && DM) {
+            progress = initialProgress - mainToMain;
+          }
+
+        } else if (forward) {
+
+          if (OM && DM) {
+            progress += mainToMain;
+          } else if (OM && DA) {
+            initialProgress = progress;
+            progress += mainToAux;
+          } else if (OA && DA) {
+            progress += auxToAux;
+          } else if (OA && DM) {
+            progress = initialProgress + mainToMain;
+          }
+
         }
 
-      } else if (forward) {
-
-        if (OM && DM) {
-          progress += mainToMain;
-        } else if (OM && DA) {
-          initialProgress = progress;
-          progress += mainToAux;
-        } else if (OA && DA) {
-          progress += auxToAux;
-        } else if (OA && DM) {
-          progress = initialProgress + mainToMain;
-        }
-
+        //console.log(progress);
+        bar.each(function(){
+          $(this).css('width',progress+'%')
+        });
+      } else { 
+        //alert('Next block not found');
+        return false;
       }
-
-      //console.log(progress);
-      bar.each(function(){
-        $(this).css('width',progress+'%')
-      });
     }
   })();
 </script>
