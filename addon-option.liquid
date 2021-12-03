@@ -1,18 +1,36 @@
-{% assign current = rg-addon-option.selected_or_first_available_variant %}
+{% unless base == 'product' %}
 <div class="option-wrapper">
   <div class="flexx align-center justify-between">
-    <a class="{% if current.available or anchor %}upsell-buttons{% else %}soldOut-tings{% endif %} add-on-bttnnn"
-       {% if current.available and anchor != true %}
-       data-id="{{ current.id }}"
-       data-pricce="{{ current.price }}"
-       data-currency="{{ cart.currency.symbol }}"
+    <a class="upsell-buttons add-on-bttnnn"
+       {% unless anchor %}
        data-code="{{ code | escape }}_{{ title | escape }}"
-       {% endif %}
+       {% endunless %}
        data-pop="customhandle-b{{- link | escape -}}"
        >{{ title | escape }}</a>
-    {% unless anchor %}
-    {% render 'rg-product-price', variant: current, product: rg-addon-option, dont_show_price: show_price %}
-    {% endunless %}
   </div>
   {{ desc }}
 </div>
+{% else %}
+<div class="option-wrapper product-addon-wrapper"
+     data-handle="{{ rg-addon-option }}"
+     data-title={{ title | json }}
+     data-desc="{{ desc }}"
+     data-cude="{{ code | escape }}_{{ title | escape }}"
+     data-poop="customhandle-b{{- link | escape -}}"
+     >
+  {% comment %}
+  {% assign current = all_products[rg-addon-option].selected_or_first_available_variant %}
+  <div class="flexx align-center justify-between">
+    <a class="{% if current.available %}upsell-buttons{% else %}soldOut-tings{% endif %} add-on-bttnnn"
+       {% if current.available %}
+       data-id="{{ current.id }}" data-pricce="{{ current.price }}" data-currency="{{ cart.currency.symbol }}"
+       {% endif %}
+       data-code="{{ code | escape }}_{{ title | escape }}"
+       data-pop="customhandle-b{{- link | escape -}}"
+       >{{ title | escape }}</a>
+    {% render 'rg-product-price', variant: current, product: rg-addon-option, dont_show_price: show_price %}
+  </div>
+  {{ desc }}
+  {% endcomment %}
+</div>
+{% endunless %}
